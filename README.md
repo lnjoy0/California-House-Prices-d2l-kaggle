@@ -98,6 +98,6 @@
 
 使用AutoML（自动化机器学习）能以更少的代码量得到更好的效果，代价是训练时间较长。
 
-以下是使用AutoGluon训练所得模型的Kaggle评分。
+使用AutoGluon训练模型，所得的Kaggle评分如下。
 
 ![](https://cdn.nlark.com/yuque/0/2025/png/22329759/1766932152406-95267f75-9461-4e20-a8b8-70e76ab7648c.png)
