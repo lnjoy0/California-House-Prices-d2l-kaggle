@@ -6,8 +6,8 @@ import numpy as np
 BASE_DIR = Path(__file__).resolve().parent
 
 if __name__ == '__main__':
-    train_data = pd.read_csv(BASE_DIR.joinpath('../../data/california-house-prices/train.csv'))
-    test_data = pd.read_csv(BASE_DIR.joinpath('../../data/california-house-prices/test.csv'))
+    train_data = pd.read_csv(BASE_DIR.joinpath('dataset/train.csv'))
+    test_data = pd.read_csv(BASE_DIR.joinpath('dataset/test.csv'))
 
     id, label = 'Id', 'Sold Price'
 
@@ -34,4 +34,4 @@ if __name__ == '__main__':
     preds_prices = np.expm1(preds)  # 将对数值还原为原始房价
 
     submission = pd.concat([test_data[id], preds_prices.rename(label)], axis=1)
-    submission.to_csv(BASE_DIR.joinpath('predict_submission_automl.csv'), index=False)
+    submission.to_csv(BASE_DIR.joinpath('csv/predict_submission_automl.csv'), index=False)

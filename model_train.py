@@ -135,8 +135,8 @@ def final_train_and_test(net, train_features, test_features, train_labels, test_
     submission.to_csv(BASE_DIR.joinpath('csv/submission.csv'), index=False)
 
 if __name__ == "__main__":
-    train_data = pd.read_csv(BASE_DIR.joinpath('../../data/california-house-prices/train.csv'))
-    test_data = pd.read_csv(BASE_DIR.joinpath('../../data/california-house-prices/test.csv'))
+    train_data = pd.read_csv(BASE_DIR.joinpath('dataset/train.csv'))
+    test_data = pd.read_csv(BASE_DIR.joinpath('dataset/test.csv'))
 
     all_features, train_data_processed = pre_process.data_preprocess(train_data, test_data)
     train_features, test_features, train_labels = get_features_labels(train_data_processed, all_features)

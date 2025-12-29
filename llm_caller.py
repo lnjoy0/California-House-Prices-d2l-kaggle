@@ -145,7 +145,7 @@ def get_house_scores(df_series):
     scores_df = pd.DataFrame(results)
 
     sv_scores_df = pd.concat([df_series.reset_index(drop=True), scores_df], axis=1)
-    sv_scores_df.to_csv("llm_scores_"+str(datetime.now()).replace(':','.')+".csv", index=False) # 保存打分结果以备检查
+    sv_scores_df.to_csv("csv/llm_scores_"+str(datetime.now()).replace(':','.')+".csv", index=False) # 保存打分结果以备检查
 
     return scores_df
 
