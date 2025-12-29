@@ -77,6 +77,30 @@
    1. 一个四层的MLP。各层输入输出维度分别为 (features_size, 1024)、(1024, 512)、(512, 256)、(256, 1)
    
    2. 各层之间加入了批量归一化、ReLU和Dropout。
+      
+      ```python
+      k, num_epochs, lr, weight_decay, batch_size, patience  = 5, 300, 0.005, 1e-3, 1024, 15
+      drop1, drop2, drop3 = 0.4, 0.2, 0.1
+      
+      net = nn.Sequential(
+          nn.Linear(train_features.shape[1], 1024),
+          nn.BatchNorm1d(1024), # 加入Batch Normalization，缓解梯度消失，放在线性层后，ReLU前
+          nn.ReLU(),
+          nn.Dropout(drop1), # 增加 Dropout 抵抗过拟合
+      
+          nn.Linear(1024, 512),
+          nn.BatchNorm1d(512), # 再次加入 BN
+          nn.ReLU(),
+          nn.Dropout(drop2),
+      
+          nn.Linear(512, 256),
+          nn.BatchNorm1d(256), # 再次加入 BN
+          nn.ReLU(),
+          nn.Dropout(drop3),
+      
+          nn.Linear(256, 1)
+      ).to(device=d2l.try_gpu())
+      ```
 
 4. 初始化权重和偏移。对所有线性层应用Kaiming初始化。
 
@@ -86,9 +110,9 @@
 
 采用以上预处理、超参数和训练方法，训练时的损失变化如下图。
 
-![](https://cdn.nlark.com/yuque/0/2025/png/22329759/1766930298041-5f8192b1-3c7c-4bd9-9561-e979c68765db.png)
+<img src="https://cdn.nlark.com/yuque/0/2025/png/22329759/1766930298041-5f8192b1-3c7c-4bd9-9561-e979c68765db.png" title="" alt="" data-align="center">
 
-![](https://cdn.nlark.com/yuque/0/2025/png/22329759/1766930313682-8be597d9-6b37-4f22-a72b-0557b3c42a95.png)
+<img src="https://cdn.nlark.com/yuque/0/2025/png/22329759/1766930313682-8be597d9-6b37-4f22-a72b-0557b3c42a95.png" title="" alt="" data-align="center">
 
 提交Kaggle评分，结果如下。
 
