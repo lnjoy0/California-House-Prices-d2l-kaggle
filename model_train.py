@@ -36,10 +36,10 @@ def log_rmse(loss, predict, labels):
     rmse = torch.sqrt(loss(predict, labels)) # 这里的predict和labels已经是对数值
     return rmse.item()
 
-def train(net, train_features, train_labels, test_features, test_labels,
+def train(net, train_features, train_labels, valid_features, valid_labels,
           num_epochs, learning_rate, weight_decay, batch_size, fold_num=None, patience=15):
     loss = nn.MSELoss()
-    train_ls, test_ls = [], []
+    train_ls, valid_ls = [], []
     train_iter = d2l.load_array((train_features, train_labels), batch_size)
     optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate,
                                  weight_decay=weight_decay)
@@ -65,9 +65,9 @@ def train(net, train_features, train_labels, test_features, test_labels,
         with torch.no_grad():
             train_rmse = log_rmse(loss, net(train_features), train_labels)
             train_ls.append(train_rmse)
-            if test_labels is not None:
-                valid_rmse = log_rmse(loss, net(test_features), test_labels)
-                test_ls.append(valid_rmse)
+            if valid_labels is not None:
+                valid_rmse = log_rmse(loss, net(valid_features), valid_labels)
+                valid_ls.append(valid_rmse)
 
                 # 根据验证集的 log_rmse 调整学习率
                 scheduler.step(valid_rmse)
@@ -75,7 +75,7 @@ def train(net, train_features, train_labels, test_features, test_labels,
                 pbar.set_postfix({'train_rmse': f'{train_rmse:.4f}', 'valid_rmse': f'{valid_rmse:.4f}'})
             else:
                 pbar.set_postfix({'train_rmse': f'{train_rmse:.4f}'})
-    return train_ls, test_ls
+    return train_ls, valid_ls
 
 def get_k_fold_data(k, i, X, y): # 共k折，验证集是第i折
     assert k > 1
