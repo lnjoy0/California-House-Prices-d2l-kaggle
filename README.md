@@ -1,6 +1,6 @@
 # California-House-Prices-d2l-kaggle
 
-加州房价预测，沐神课程中的第一个比赛，kaggle地址：[California House Prices | Kaggle](https://www.kaggle.com/competitions/california-house-prices)
+加州房价预测，沐神d2l课程中的第一次竞赛，kaggle地址：[California House Prices | Kaggle](https://www.kaggle.com/competitions/california-house-prices)
 
 自己实现的MLP方法以及沐神讲的autogluon方法简介如下。
 
