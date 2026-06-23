@@ -1,6 +1,6 @@
 # California-House-Prices-d2l-kaggle
 
-加州房价预测，沐神d2l课程中的第一次竞赛，kaggle地址：[California House Prices | Kaggle](https://www.kaggle.com/competitions/california-house-prices)
+基于 MLP 的加州房价预测实验，这是沐神d2l课程中的第一次竞赛，kaggle地址：[California House Prices | Kaggle](https://www.kaggle.com/competitions/california-house-prices)
 
 自己实现的MLP方法以及沐神讲的autogluon方法简介如下。
 
@@ -22,17 +22,13 @@
 
 5. 调用大模型为Summary打分（效果似乎不好，后续注释掉了）
    
-   1. 使用langchain和pydantic设置LLM格式化输出
+   1. LLM使用deepseek（相对便宜）。
+      
+   2. 写系统提示词，指定模型角色、任务、打分标准，以及输出格式（使用langchain和pydantic）。
    
-   2. 使用langchain的ChatOpenAI初始化模型，这里使用deepseek api（因为比较便宜）
-   
-   3. 写系统提示词，指定模型角色、任务、打分标准（这里用gemini生成），以及输出格式（pydantic生成的）。
-   
-   4. 使用asyncio进行批量并发请求。因为deepseek-chat生成一个样本的输出大概要4秒左右，有7万多个样本要处理，所以一个一个跑得77个多小时才能跑完，而用批量大小为20的并发请求的话，只要3个多小时。（deepseek的生成速度相对较慢，但是好在它的api没有并发限制）
-   
-   5. （deepseek是相对较便宜的api了，不过跑完6万多个样本后仍然花了40多RMB）
-   
-   6. （这里思路是将LLM为Summary打的分数作为一个训练特征，从而处理Summary这个长文本特征。但是实验效果并不好，加上这个打分特征之后log rmse有0.7左右，而直接移除这个特征后log rmse降到了0.2左右。）
+   3. 使用asyncio进行批量并发请求。
+      
+   4. （这里思路是将LLM为Summary打的分数作为一个训练特征，从而利用Summary这个长文本特征。但是实验效果并不好，加上这个打分特征之后log rmse有0.7左右，而直接移除这个特征后log rmse降到了0.2左右。）
 
 6. 数值特征标准化。
    
